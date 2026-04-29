@@ -1,6 +1,8 @@
+
 import express from 'express';
 import cors from 'cors';
-import { events } from './data/events.ts';
+import { events } from './data/events.js';
+import { recordTransaction } from './Blockchain/algorand.js';
 
 const app = express();
 const PORT = 5000;
@@ -66,14 +68,13 @@ app.get('/api/summary/:name', (req, res) => {
   res.json(event);
 });
 
-app.post('/api/blockchain/record', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Blockchain record placeholder saved',
-    data: req.body
-  });
-});
+app.post('/api/blockchain/record', async (req, res) => {
+  const result = await recordTransaction(
+    JSON.stringify(req.body)
+  );
 
+  res.json(result);
+});
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
