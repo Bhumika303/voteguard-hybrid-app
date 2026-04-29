@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { events } from './data/events.js';
+import { events } from './data/events.ts';
 
 const app = express();
 const PORT = 5000;
